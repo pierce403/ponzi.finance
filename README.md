@@ -1,2 +1,2 @@
 # ponzi.finance
-Education resource about crypto ponzi schemes.
+Educational resource all about crypto ponzi schemes.
