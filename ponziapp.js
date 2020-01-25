@@ -1,9 +1,10 @@
 let provider;
 let accounts;
 
-ethereum.enable();
+document.getElementById("msg").textContent='Please Install Metamask';
 
-if (typeof web3 !== 'undefined') {
+ethereum.enable().then(function () {
+
     provider = new ethers.providers.Web3Provider(web3.currentProvider);
 
     provider.listAccounts().then(function (result) {
@@ -11,6 +12,7 @@ if (typeof web3 !== 'undefined') {
         provider.getBalance(String(result[0])).then(function (balance) {
             var etherString = ethers.utils.formatEther(balance);
             console.log("Balance: " + etherString);
+            document.getElementById("msg").textContent='ETH Balance: '+etherString;
         });
     })
-}
+})
