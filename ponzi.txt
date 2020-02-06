@@ -15,7 +15,7 @@ Many securities will give regular returns higher than 12%, or even 20%, but thos
 
 What is the Ponzi Protocol?
 
-Ponzi Protocol is a fun new game that teaches the mechanics of how Ponzi Schemes operate in an extrordinarily transparent way. Players *CAN* walk away with more than they put in, as long as they act conservatively, and understand when the right time is to exit.
+Ponzi Protocol is a fun new game that teaches the mechanics of how Ponzi Schemes operate in an extraordinarily transparent way. Players *CAN* walk away with more than they put in, as long as they act conservatively, and understand when the right time is to exit.
 
 Step 1: DEPOSIT. Send some amount of Ethereum (that you are willing to lose) to the listed ETH address.
 
@@ -27,10 +27,10 @@ WARNINGS:
 
 Any address may only have one claim open at a time.
 
-If you try to withdraw your claim, and the money isn't there, your claim will be forfieted.
+If you try to withdraw your claim, and the money isn't there, your claim will be forfeited.
 
 Deposits and withdrawals can not come from other smart contracts, as that would make it too easy to avoid negative outcomes.
 
-If you are trying to make a large withdrawl, other players may detect that and "frontrun" your transaction, which could cause you to lose your claim.
+If you are trying to make a large withdrawal, other players may detect that and "frontrun" your transaction, which could cause you to lose your claim.
 
-If a withdrawl is successful, an additional education fee will be withdrawn and gifted to me, the creator of this site, which may be used for further development or boats.
+If a withdrawal is successful, an additional education fee will be withdrawn and gifted to me, the creator of this site, which may be used for further development or boats.
