@@ -1,0 +1,58 @@
+.header {
+    padding: 60px;
+    text-align: center;
+    background: #1f1f1f;
+    color: white;
+    font-size: 20px;
+  }
+
+  .winnings {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    padding: 100px;
+    position: absolute;
+    top: 25px;
+  }
+
+  .funtable {
+    margin: 0 auto;
+    width: 100%;
+    padding: 100px;
+    position: absolute;
+    top: 70px;
+  }
+
+  .playertable {
+    margin: 0 auto;
+    width: 100%;
+    padding: 100px;
+    position: absolute;
+    top: 200px;
+  }
+
+  .modal {
+    color: grey;
+  }
+
+  .modal-header {
+    background-color: black; // Code of the exact color you want
+  }
+
+  .modal-body {
+    background-color: black; // Code of the exact color you want
+
+  }
+
+  .modal-footer {
+    background-color: black;
+  }
+
+  .modal-backdrop {
+    background-color: black;
+  }
+
+
+  body {
+    background: black !important;
+  }
