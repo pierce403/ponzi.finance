@@ -3,7 +3,9 @@ let accounts;
 
 //let contractAddress = "0x0D6c3b9599eccF54819DB6B768B4B77eF3c932A9";
 //let contractAddress = "0x167662223C0755eA4310a5E6Cacba557Bfb951a2";
-let contractAddress = "0x8416c1863eDEea0E0f0f766CfF1b1800Fdb749aD";
+//let contractAddress = "0x8416c1863eDEea0E0f0f766CfF1b1800Fdb749aD";
+let contractAddress = "0xEB82AE50FA5b15FFc2699143b3da1B524127853B";
+
 let contract = "";
 let accountAddress = "";
 let signer;
@@ -62,8 +64,6 @@ function populateTable() {
         document.getElementById("winnings").innerText=value/ethers.constants.WeiPerEther+" ETH";
     })
 
-    
-
     playerTable = document.getElementById("playerTable");
 
     contract.getLogCount().then(function (logSize) {
@@ -96,7 +96,7 @@ function populateTable() {
                             }
                         }
                         else{
-                            row.insertCell().innerText="WON "+((value[1]-value[3])/ethers.constants.WeiPerEther)+" ETH!!";
+                            row.insertCell().innerText="WON "+((value[3]-value[1])/ethers.constants.WeiPerEther)+" ETH!!";
                         }
                     })
                 }
