@@ -35,15 +35,15 @@
         <tr class="align-middle">
           <td>&#x2662; Ether</td>
           <td id="marketSize">0</td>
-          <td><button id="bigRedButton" type="button" class="btn-sm btn-danger" onclick="bigRedButtonClick()">
-            Big Red Button
-          </button></td>
-          
+          <td><button id="bigRedButton" type="button" class="btn btn-sm btn-danger" onclick="bigRedButtonClick()">
+              Big Red Button
+            </button></td>
+
           <!--
           <td id="deposit">0</td>
           -->
           <td id="winnings"></td>
-          
+
           <td>666.00%</td>
           <td>73.93%</td>
           <td>13.58%</td>
@@ -69,20 +69,6 @@
       </tbody>
     </table>
   </div>
-
-  <br><br><br><br><br><br><br><br><br>
-  <center>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ponziModal">
-      Ponzi Info
-    </button>
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#gameModal">
-      Game Info
-    </button>
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#websiteModal">
-      Website Info
-    </button>
-  </center>
 
   <!-- Ponzi Modal -->
   <div class="modal fade" id="ponziModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
@@ -203,6 +189,24 @@
     </div>
   </div>
 
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">
+        <center>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#ponziModal">
+            Ponzi Info
+          </button>
+          <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#gameModal">
+            Game Info
+          </button>
+          <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#websiteModal">
+            Website Info
+          </button>
+        </center>
+      </span>
+    </div>
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">

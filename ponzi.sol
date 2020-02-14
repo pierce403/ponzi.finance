@@ -1,19 +1,19 @@
 pragma solidity ^0.5.11;
 
 //
-//  PONZI PROTOCOL  0.1 - ALPHA
+//  PONZI PROTOCOL  0.2 - ALPHA
 //
 //  HTTPS://PONZI.FINANCE
 //
 //  Tested some parts pretty well
 //  Kinda YOLO'd a bunch of stuff last minute though
-//  Player logging probably works
+//  Player logging probably works 
 //
 //  send hate tweets to @deanpierce
 //
 //  USE AT YOUR OWN RISK
 //
-//  0x8416c1863eDEea0E0f0f766CfF1b1800Fdb749aD
+//  0xEB82AE50FA5b15FFc2699143b3da1B524127853B
 
 contract Ponzi{
     
@@ -77,7 +77,7 @@ contract Ponzi{
         require(players[msg.sender].deposit!=0, "NEW CONTRACT WHO DIS?");
         uint256 hrs = getAge();
         // check for cooldown period
-        require(hrs<24, "24hr COOLDOWN PERIOD IN EFFECT");
+        require(hrs>24, "24hr COOLDOWN PERIOD IN EFFECT");
         require(hrs<compTable.length,"TABLE TOO SMALL");
         
         // compTable offset by magicDen due to lack of floats
@@ -108,7 +108,7 @@ contract Ponzi{
     }
     
     function getAge() public view returns (uint256) {
-        return (block.timestamp-players[msg.sender].regTime)/3600;
+        return (block.timestamp-players[msg.sender].regTime)/3600; // age in hours
     }
     
     function getBalance() public view returns(uint256) {
@@ -117,6 +117,10 @@ contract Ponzi{
     
     function getLogCount() public view returns(uint256) {
         return playerLog.length;
+    }
+    
+    function getTableSize() public view returns(uint256) {
+        return compTable.length; //??????
     }
     
     // owner paterns are overrated

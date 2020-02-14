@@ -1,9 +1,6 @@
 let provider;
 let accounts;
 
-//let contractAddress = "0x0D6c3b9599eccF54819DB6B768B4B77eF3c932A9";
-//let contractAddress = "0x167662223C0755eA4310a5E6Cacba557Bfb951a2";
-//let contractAddress = "0x8416c1863eDEea0E0f0f766CfF1b1800Fdb749aD";
 let contractAddress = "0xEB82AE50FA5b15FFc2699143b3da1B524127853B";
 
 let contract = "";
@@ -33,9 +30,9 @@ ethereum.enable().then(function () {
         console.log(result);
         accountAddress = result[0];
         provider.getBalance(String(result[0])).then(function (balance) {
-            var etherString = ethers.utils.formatEther(balance);
-            console.log("Balance: " + etherString);
-            document.getElementById("msg").textContent = 'ETH Balance: ' + etherString;
+            var myBalance = (balance/ethers.constants.WeiPerEther).toFixed(4);
+            console.log("Your Balance: " + myBalance);
+            document.getElementById("msg").textContent = 'ETH Balance: ' + myBalance;
         });
 
         signer = provider.getSigner();
@@ -51,7 +48,7 @@ function populateTable() {
 
     contract.getBalance().then(function (value) {
         console.log("Pool Balance: " + value);
-        document.getElementById("marketSize").innerText = value / ethers.constants.WeiPerEther + " ETH";
+        document.getElementById("marketSize").innerText = (value / ethers.constants.WeiPerEther).toFixed(4) + " ETH";
     })
 
     contract.players(accountAddress).then(function (value) {
@@ -110,7 +107,7 @@ function refreshButton(deposit) {
             //signer.send('eth_sendTransaction', tx);
             signer.sendTransaction(tx); 
         }
-        document.getElementById("winnings").innerHTML="<div class=\"input-group input-group-sm mb-3 col-5\">\r\n  <input id=\"depositInput\" width=200 value=\"0.1\" type=\"text\" class=\"form-control\" aria-label=\"Small\" aria-describedby=\"inputGroup-sizing-sm\">\r\n<\/div>";
+        document.getElementById("winnings").innerHTML="<div class=\"input-group input-group-sm mb-3 col-6\">\r\n  <input id=\"depositInput\" width=200 value=\"0.1\" type=\"text\" class=\"form-control\" aria-label=\"Small\" aria-describedby=\"inputGroup-sizing-sm\">\r\n<\/div>";
 
     } else { // if the user has money in the game, show Withdrawl UX
         document.getElementById("bigRedButton").innerText = "Withdraw ETH";
