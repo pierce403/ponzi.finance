@@ -6,6 +6,7 @@ let contractAddress = "0xEB82AE50FA5b15FFc2699143b3da1B524127853B";
 let contract = "";
 let accountAddress = "";
 let signer;
+let myRegTime=0;
 
 let abi = [
     "function getBalance() public view returns(uint256 value)",
@@ -54,6 +55,7 @@ function populateTable() {
     contract.players(accountAddress).then(function (value) {
         console.log("Deposit: " + value[1]);
         //document.getElementById("deposit").innerText=value[1]/ethers.constants.WeiPerEther+" ETH";
+        myRegTime=value[2];
         refreshButton(value[1]);
     })
 
@@ -75,7 +77,9 @@ function populateTable() {
                 row.insertCell().innerText = (value[1] / ethers.constants.WeiPerEther) + " ETH";
 
                 console.log("regtime is " + value[2]);
-                row.insertCell().innerText = value[2];
+                let regtime = new Date(value[2]*1000)
+                let formatted_date = regtime.getFullYear() + "-" + (regtime.getMonth() + 1) + "-" + regtime.getDate() + " " + regtime.getHours() + ":" + regtime.getMinutes() + ":" + regtime.getSeconds() 
+                row.insertCell().innerText = formatted_date;
 
                 if (value[3] == 0) {
                     if (value[4] == 0) {
@@ -112,10 +116,18 @@ function refreshButton(deposit) {
     } else { // if the user has money in the game, show Withdrawl UX
         document.getElementById("bigRedButton").innerText = "Withdraw ETH";
         document.getElementById("bigRedButton").onclick = function () {
+
+            if(myRegTime*1000+24*60*60*1000>=Date.now())
+            {
+                document.getElementById("msg").textContent="You must wait 24 hours before withdrawing.";
+                return;
+            }
+
             contract.withdraw().then(function (value) {
                 if (value) {
                     console.log("Withdraw Successful");
                 } else {
+                    document.getElementById("msg").textContent="Dang";
                     console.log("Oh No Withdraw Failure :-(");
                 }
             })
