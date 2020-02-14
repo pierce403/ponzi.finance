@@ -51,54 +51,90 @@ function populateTable() {
 
     contract.getBalance().then(function (value) {
         console.log("Pool Balance: " + value);
-        document.getElementById("marketSize").innerText=value/ethers.constants.WeiPerEther+" ETH";
+        document.getElementById("marketSize").innerText = value / ethers.constants.WeiPerEther + " ETH";
     })
 
     contract.players(accountAddress).then(function (value) {
         console.log("Deposit: " + value[1]);
-        document.getElementById("deposit").innerText=value[1]/ethers.constants.WeiPerEther+" ETH";
-    })
-
-    contract.getWealth().then(function (value) {
-        console.log("Winnings: " + value);
-        document.getElementById("winnings").innerText=value/ethers.constants.WeiPerEther+" ETH";
+        //document.getElementById("deposit").innerText=value[1]/ethers.constants.WeiPerEther+" ETH";
+        refreshButton(value[1]);
     })
 
     playerTable = document.getElementById("playerTable");
 
     contract.getLogCount().then(function (logSize) {
-            console.log("looks like " + logSize + " log entries");
+        console.log("looks like " + logSize + " log entries");
 
-            for (let x = 0; x < logSize; ++x) {
+        for (let x = 0; x < logSize; ++x) {
 
-                let row=playerTable.insertRow(-1);
-                row.insertCell().innerText=x;
+            let row = playerTable.insertRow(-1);
+            row.insertCell().innerText = x;
 
-                contract.playerLog(x).then(function (value) {
-                        console.log("address is " + value[0]);
-                        row.insertCell().innerText=value[0];
+            contract.playerLog(x).then(function (value) {
+                console.log("address is " + value[0]);
+                row.insertCell().innerText = value[0];
 
-                        console.log("deposit is " + value[1]);
-                        row.insertCell().innerText=(value[1]/ethers.constants.WeiPerEther)+" ETH";
+                console.log("deposit is " + value[1]);
+                row.insertCell().innerText = (value[1] / ethers.constants.WeiPerEther) + " ETH";
 
-                        console.log("regtime is " + value[2]);
-                        row.insertCell().innerText=value[2];
+                console.log("regtime is " + value[2]);
+                row.insertCell().innerText = value[2];
 
-                        if(value[3]==0)
-                        {
-                            if(value[4]==0)
-                            {
-                                row.insertCell().innerText="HOPEFUL"
-                            }
-                            else
-                            {
-                                row.insertCell().innerText="REKT :-("
-                            }
-                        }
-                        else{
-                            row.insertCell().innerText="WON "+((value[3]-value[1])/ethers.constants.WeiPerEther)+" ETH!!";
-                        }
-                    })
+                if (value[3] == 0) {
+                    if (value[4] == 0) {
+                        row.insertCell().innerText = "HOPEFUL"
+                    } else {
+                        row.insertCell().innerText = "REKT :-("
+                    }
+                } else {
+                    let percentGainz = (value[3] / value[1] * 100 - 100).toFixed(2);
+                    row.insertCell().innerText = "WON (+" + percentGainz + "%)";
                 }
-            });
+            })
+        }
+    });
+}
+
+function refreshButton(deposit) {
+    if (deposit == 0) { // if the user has no money, show Deposit UX
+        document.getElementById("bigRedButton").innerText = "Deposit ETH";
+        document.getElementById("bigRedButton").onclick = function () {
+            console.log("WOAW DEPOSIT");
+            let depositValue = ethers.utils.parseEther(document.getElementById("depositInput").value);
+            console.log("Depositing "+depositValue+" ETH");
+            console.log("From "+accountAddress);
+            let tx = {
+                to: contractAddress,
+                value: depositValue
+            };
+            //signer.send('eth_sendTransaction', tx);
+            signer.sendTransaction(tx); 
+        }
+        document.getElementById("winnings").innerHTML="<div class=\"input-group input-group-sm mb-3 col-5\">\r\n  <input id=\"depositInput\" width=200 value=\"0.1\" type=\"text\" class=\"form-control\" aria-label=\"Small\" aria-describedby=\"inputGroup-sizing-sm\">\r\n<\/div>";
+
+    } else { // if the user has money in the game, show Withdrawl UX
+        document.getElementById("bigRedButton").innerText = "Withdraw ETH";
+        document.getElementById("bigRedButton").onclick = function () {
+            contract.withdraw().then(function (value) {
+                if (value) {
+                    console.log("Withdraw Successful");
+                } else {
+                    console.log("Oh No Withdraw Failure :-(");
+                }
+            })
+        }
+        contract.getWealth().then(function (value) {
+            let percentGainz = (value / deposit * 100 - 100).toFixed(2);
+            document.getElementById("winnings").innerText = value / ethers.constants.WeiPerEther + " ETH (+" + percentGainz + "%)";
+        })
+
     }
+}
+
+function potato() {
+
+}
+
+function bigRedButtonClick() {
+    console.log("nice");
+}
