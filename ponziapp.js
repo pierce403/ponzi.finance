@@ -117,9 +117,15 @@ function refreshButton(deposit) {
         document.getElementById("bigRedButton").innerText = "Withdraw ETH";
         document.getElementById("bigRedButton").onclick = function () {
 
-            if(myRegTime*1000+24*60*60*1000>=Date.now())
+            // are we past the 24 hour waiting period?
+            if(myRegTime*1000+24*60*60*1000 >= Date.now())
             {
-                document.getElementById("msg").textContent="You must wait 24 hours before withdrawing.";
+                // how much time is left?
+                let remainingSecs =(parseInt(myRegTime)+24*60*60)-(Date.now()/1000);
+                let remainingHours = parseInt((remainingSecs/60/60));
+                let remainingMins = parseInt(remainingSecs/60-remainingHours*60);
+
+                document.getElementById("msg").textContent = "You must wait "+remainingHours+" hours "+remainingMins+" mins before withdrawing.";
                 return;
             }
 
@@ -134,7 +140,7 @@ function refreshButton(deposit) {
         }
         contract.getWealth().then(function (value) {
             let percentGainz = (value / deposit * 100 - 100).toFixed(2);
-            document.getElementById("winnings").innerText = value / ethers.constants.WeiPerEther + " ETH (+" + percentGainz + "%)";
+            document.getElementById("winnings").innerText = (value / ethers.constants.WeiPerEther).toFixed(4) + " ETH (+" + percentGainz + "%)";
         })
 
     }
