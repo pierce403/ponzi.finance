@@ -117,6 +117,17 @@ function refreshButton(deposit) {
         document.getElementById("bigRedButton").innerText = "Deposit ETH";
         document.getElementById("bigRedButton").onclick = function () {
             console.log("WOAW DEPOSIT");
+
+            //document.cookie = "educated=1";
+
+            if (document.cookie !== "educated=1") {
+                console.log("GET SOME EDUCATION");
+                $('#gameModal').modal({
+                    show: true
+                });
+                return;
+            }
+
             let depositValue = ethers.utils.parseEther(document.getElementById("depositInput").value);
             console.log("Depositing " + depositValue + " ETH");
             console.log("From " + accountAddress);
@@ -161,10 +172,6 @@ function refreshButton(deposit) {
     }
 }
 
-function potato() {
-
-}
-
-function bigRedButtonClick() {
-    console.log("nice");
+function iUnderstand() {
+    document.cookie = "educated=1";
 }
