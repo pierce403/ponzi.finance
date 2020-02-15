@@ -6,7 +6,7 @@ let contractAddress = "0xEB82AE50FA5b15FFc2699143b3da1B524127853B";
 let contract = "";
 let accountAddress = "";
 let signer;
-let myRegTime=0;
+let myRegTime = 0;
 
 let abi = [
     "function getBalance() public view returns(uint256 value)",
@@ -27,18 +27,30 @@ ethereum.enable().then(function () {
 
     provider = new ethers.providers.Web3Provider(web3.currentProvider);
 
-    provider.listAccounts().then(function (result) {
-        console.log(result);
-        accountAddress = result[0];
-        provider.getBalance(String(result[0])).then(function (balance) {
-            var myBalance = (balance/ethers.constants.WeiPerEther).toFixed(4);
-            console.log("Your Balance: " + myBalance);
-            document.getElementById("msg").textContent = 'ETH Balance: ' + myBalance;
-        });
 
-        signer = provider.getSigner();
+    provider.getNetwork().then(function (result) {
+        if (result['chainId'] != 1) {
+            document.getElementById("msg").textContent = 'Switch to Mainnet!';
 
-        populateTable();
+        } else { // okay, confirmed we're on mainnet
+
+            provider.listAccounts().then(function (result) {
+                console.log(result);
+                accountAddress = result[0]; // figure out the user's Eth address
+
+                provider.getBalance(String(result[0])).then(function (balance) {
+                    var myBalance = (balance / ethers.constants.WeiPerEther).toFixed(4);
+                    console.log("Your Balance: " + myBalance);
+                    document.getElementById("msg").textContent = 'ETH Balance: ' + myBalance;
+                });
+
+                // get a signer object so we can do things that need signing
+                signer = provider.getSigner();
+
+                // build out the table of players
+                populateTable();
+            })
+        }
     })
 })
 
@@ -55,7 +67,7 @@ function populateTable() {
     contract.players(accountAddress).then(function (value) {
         console.log("Deposit: " + value[1]);
         //document.getElementById("deposit").innerText=value[1]/ethers.constants.WeiPerEther+" ETH";
-        myRegTime=value[2];
+        myRegTime = value[2];
         refreshButton(value[1]);
     })
 
@@ -77,17 +89,17 @@ function populateTable() {
                 row.insertCell().innerText = (value[1] / ethers.constants.WeiPerEther) + " ETH";
 
                 console.log("regtime is " + value[2]);
-                let regtime = new Date(value[2]*1000);
-                let formatted_date = regtime.getFullYear() + "-" + (regtime.getMonth() + 1) + "-" + regtime.getDate() + " " + regtime.getHours() + ":" + regtime.getMinutes() + ":" + regtime.getSeconds() 
+                let regtime = new Date(value[2] * 1000);
+                let formatted_date = regtime.getFullYear() + "-" + (regtime.getMonth() + 1) + "-" + regtime.getDate() + " " + regtime.getHours() + ":" + regtime.getMinutes() + ":" + regtime.getSeconds()
                 row.insertCell().innerText = formatted_date;
 
                 if (value[3] == 0) { // player still active (no withdraw amount)
-                    if (value[4] == 0) { 
+                    if (value[4] == 0) {
                         // figure out how much time has passed to calculate gainz
-                        let ageSecs = parseInt(Date.now()/1000)-parseInt(value[2]);
-                        let ageHours = parseInt(ageSecs/60/60);
-                        let coeff = (10007585/10000000)**ageHours;
-                        row.insertCell().innerText = "HOPEFUL (+"+(coeff*100-100).toFixed(2)+"%)";
+                        let ageSecs = parseInt(Date.now() / 1000) - parseInt(value[2]);
+                        let ageHours = parseInt(ageSecs / 60 / 60);
+                        let coeff = (10007585 / 10000000) ** ageHours;
+                        row.insertCell().innerText = "HOPEFUL (+" + (coeff * 100 - 100).toFixed(2) + "%)";
                     } else {
                         row.insertCell().innerText = "REKT :-("
                     }
@@ -101,35 +113,34 @@ function populateTable() {
 }
 
 function refreshButton(deposit) {
-    if (deposit == 0) { // if the user has no money, show Deposit UX
+    if (deposit == 0) { // if the user has no money in game, show Deposit UX
         document.getElementById("bigRedButton").innerText = "Deposit ETH";
         document.getElementById("bigRedButton").onclick = function () {
             console.log("WOAW DEPOSIT");
             let depositValue = ethers.utils.parseEther(document.getElementById("depositInput").value);
-            console.log("Depositing "+depositValue+" ETH");
-            console.log("From "+accountAddress);
+            console.log("Depositing " + depositValue + " ETH");
+            console.log("From " + accountAddress);
             let tx = {
                 to: contractAddress,
                 value: depositValue
             };
             //signer.send('eth_sendTransaction', tx);
-            signer.sendTransaction(tx); 
+            signer.sendTransaction(tx);
         }
-        document.getElementById("winnings").innerHTML="<div class=\"input-group input-group-sm mb-3 col-6\">\r\n  <input id=\"depositInput\" width=200 value=\"0.1\" type=\"text\" class=\"form-control\" aria-label=\"Small\" aria-describedby=\"inputGroup-sizing-sm\">\r\n<\/div>";
+        document.getElementById("winnings").innerHTML = "<div class=\"input-group input-group-sm mb-3 col-6\">\r\n  <input id=\"depositInput\" width=200 value=\"0.1\" type=\"text\" class=\"form-control\" aria-label=\"Small\" aria-describedby=\"inputGroup-sizing-sm\">\r\n<\/div>";
 
     } else { // if the user has money in the game, show Withdrawl UX
         document.getElementById("bigRedButton").innerText = "Withdraw ETH";
         document.getElementById("bigRedButton").onclick = function () {
 
             // are we past the 24 hour waiting period?
-            if(myRegTime*1000+24*60*60*1000 >= Date.now())
-            {
+            if (myRegTime * 1000 + 24 * 60 * 60 * 1000 >= Date.now()) {
                 // how much time is left?
-                let remainingSecs =(parseInt(myRegTime)+24*60*60)-(Date.now()/1000);
-                let remainingHours = parseInt((remainingSecs/60/60));
-                let remainingMins = parseInt(remainingSecs/60-remainingHours*60);
+                let remainingSecs = (parseInt(myRegTime) + 24 * 60 * 60) - (Date.now() / 1000);
+                let remainingHours = parseInt((remainingSecs / 60 / 60));
+                let remainingMins = parseInt(remainingSecs / 60 - remainingHours * 60);
 
-                document.getElementById("msg").textContent = "You must wait "+remainingHours+" hours "+remainingMins+" mins before withdrawing.";
+                document.getElementById("msg").textContent = "You must wait " + remainingHours + " hours " + remainingMins + " mins before withdrawing.";
                 return;
             }
 
@@ -137,7 +148,7 @@ function refreshButton(deposit) {
                 if (value) {
                     console.log("Withdraw Successful");
                 } else {
-                    document.getElementById("msg").textContent="Dang";
+                    document.getElementById("msg").textContent = "Dang";
                     console.log("Oh No Withdraw Failure :-(");
                 }
             })
