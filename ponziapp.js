@@ -77,13 +77,17 @@ function populateTable() {
                 row.insertCell().innerText = (value[1] / ethers.constants.WeiPerEther) + " ETH";
 
                 console.log("regtime is " + value[2]);
-                let regtime = new Date(value[2]*1000)
+                let regtime = new Date(value[2]*1000);
                 let formatted_date = regtime.getFullYear() + "-" + (regtime.getMonth() + 1) + "-" + regtime.getDate() + " " + regtime.getHours() + ":" + regtime.getMinutes() + ":" + regtime.getSeconds() 
                 row.insertCell().innerText = formatted_date;
 
-                if (value[3] == 0) {
-                    if (value[4] == 0) {
-                        row.insertCell().innerText = "HOPEFUL"
+                if (value[3] == 0) { // player still active (no withdraw amount)
+                    if (value[4] == 0) { 
+                        // figure out how much time has passed to calculate gainz
+                        let ageSecs = parseInt(Date.now()/1000)-parseInt(value[2]);
+                        let ageHours = parseInt(ageSecs/60/60);
+                        let coeff = (10007585/10000000)**ageHours;
+                        row.insertCell().innerText = "HOPEFUL (+"+(coeff*100-100).toFixed(2)+"%)";
                     } else {
                         row.insertCell().innerText = "REKT :-("
                     }
