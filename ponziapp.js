@@ -21,7 +21,7 @@ let abi = [
     "function withdraw() public returns(bool result)"
 ];
 
-document.getElementById("msg").textContent = 'Please Install Metamask';
+document.getElementById("msg").textContent = 'Web3 Browser Required (Metamask etc)';
 
 ethereum.enable().then(function () {
 
