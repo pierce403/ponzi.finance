@@ -16,6 +16,7 @@ let abi = [
     "function playerLog(uint256) public view returns (address, uint256, uint256, uint256, uint256)",
     "function players(address) public view returns (uint256, uint256, uint256)",
     "function getAge() public view returns (uint256)",
+    "function getTableSize() public view returns (uint256)",
     "function bumpComp(uint256 count) public returns (uint256)",
     "function compTable(uint256 count) public returns (uint256)",
     "function withdraw() public returns(bool result)"
@@ -141,6 +142,9 @@ function refreshButton(deposit) {
         document.getElementById("winnings").innerHTML = "<div class=\"input-group input-group-sm mb-3 col-6\">\r\n  <input id=\"depositInput\" width=200 value=\"0.1\" type=\"text\" class=\"form-control\" aria-label=\"Small\" aria-describedby=\"inputGroup-sizing-sm\">\r\n<\/div>";
 
     } else { // if the user has money in the game, show Withdrawl UX
+
+        if(!requireAge())return;
+
         document.getElementById("bigRedButton").innerText = "Withdraw ETH";
         document.getElementById("bigRedButton").onclick = function () {
 
@@ -170,6 +174,40 @@ function refreshButton(deposit) {
         })
 
     }
+}
+
+function requireAge()
+{
+    contract.getAge().then(function(age){
+      console.log("age is "+age);
+      contract.getTableSize().then(function(tableSize){
+        console.log("tableSize is "+tableSize);
+
+        if(tableSize<age){
+            console.log("OH NOO");
+
+            document.getElementById("msg").textContent = 'WARNING: Table size behind by '+(age-tableSize)+' hours!';
+
+            document.getElementById("bigRedButton").innerText = "Build Table";
+            document.getElementById("bigRedButton").onclick = function () {
+    
+                contract.bumpComp(200).then(function (value) {
+                    if (value) {
+                        console.log("Bump Successful");
+                    } else {
+                        console.log("Bump Failed");
+                    }
+                })
+            }
+
+        }
+        else{
+            console.log("OH YEAH")
+        }
+      });
+    });
+
+    return true;
 }
 
 function iUnderstand() {
