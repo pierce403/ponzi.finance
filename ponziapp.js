@@ -42,7 +42,7 @@ ethereum.enable().then(function () {
                 provider.getBalance(String(result[0])).then(function (balance) {
                     var myBalance = (balance / ethers.constants.WeiPerEther).toFixed(4);
                     console.log("Your Balance: " + myBalance);
-                    document.getElementById("msg").textContent = 'ETH Balance: ' + myBalance;
+                    document.getElementById("msg").textContent = 'Status: Missing Out';
                 });
 
                 // get a signer object so we can do things that need signing
@@ -73,11 +73,12 @@ function populateTable() {
     })
 
     playerTable = document.getElementById("playerTable");
+    playerTable.innerHTML = ""; // wipe the table if there's anything there already
 
     contract.getLogCount().then(function (logSize) {
         console.log("looks like " + logSize + " log entries");
 
-        for (let x = 0; x < logSize; ++x) {
+        for (let x = logSize-1; x >= logSize-viewPlayers && x >= 0; --x) {
 
             let row = playerTable.insertRow(-1);
             row.insertCell().innerText = x;
