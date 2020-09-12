@@ -145,7 +145,7 @@ function refreshButton(deposit) {
     } else { // if the user has money in the game, show Withdrawl UX
 
         if(!requireAge())return;
-
+        document.getElementById("msg").textContent = 'Status: HOPEFUL';
         document.getElementById("bigRedButton").innerText = "Withdraw ETH";
         document.getElementById("bigRedButton").onclick = function () {
 
