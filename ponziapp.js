@@ -73,7 +73,7 @@ function populateTable() {
     })
 
     playerTable = document.getElementById("playerTable");
-    playerTable.innerHTML = ""; // wipe the table if there's anything there already
+    playerTable.innerHTML = '<thead class="thead-dark"><tr><th scope="col">Player Address</th><th scope="col">Deposit Amount</th><th scope="col">Deposit Time</th><th scope="col">Status</th></tr></thead>'; // wipe the table if there's anything there already
 
     contract.getLogCount().then(function (logSize) {
         console.log("looks like " + logSize + " log entries");
@@ -81,7 +81,7 @@ function populateTable() {
         for (let x = logSize-1; x >= logSize-viewPlayers && x >= 0; --x) {
 
             let row = playerTable.insertRow(-1);
-            row.insertCell().innerText = x;
+            // row.insertCell().innerText = x;  // add the player ID
 
             contract.playerLog(x).then(function (value) {
                 console.log("address is " + value[0]);
