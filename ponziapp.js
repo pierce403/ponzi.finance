@@ -3,7 +3,10 @@ let accounts;
 
 let contractAddress = "0xEB82AE50FA5b15FFc2699143b3da1B524127853B";
 
+let yieldAddress = "0x0dca1C98b942418b947AEbc70101E9d26068908B"
+
 let contract = "";
+let yieldContract = "";
 let accountAddress = "";
 let signer;
 let myRegTime = 0;
@@ -21,6 +24,8 @@ let abi = [
     "function compTable(uint256 count) public returns (uint256)",
     "function withdraw() public returns(bool result)"
 ];
+
+let yieldAbi = ["function yield() public returns ()"];
 
 document.getElementById("msg").textContent = 'Web3 Browser Required (Metamask etc)';
 
@@ -59,6 +64,7 @@ function populateTable() {
     console.log("populating table");
 
     contract = new ethers.Contract(contractAddress, abi, signer);
+    yieldContract = new ethers.Contract(yieldAddress, yieldAbi, signer);
 
     contract.getBalance().then(function (value) {
         console.log("Pool Balance: " + value);
@@ -233,4 +239,15 @@ function bumpCompTable() {
 
 function iUnderstand() {
     document.cookie = "educated=1";
+}
+
+function yield() {
+
+    yieldContract.yield().then(function (value) {
+        if (value) {
+            console.log("Yield Successful");
+        } else {
+            console.log("Yield Failed");
+        }
+    })
 }
