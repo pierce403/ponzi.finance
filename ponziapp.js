@@ -141,7 +141,7 @@ function refreshButton(deposit) {
             //signer.send('eth_sendTransaction', tx);
             signer.sendTransaction(tx);
         }
-        document.getElementById("winnings").innerHTML = "<div class=\"input-group input-group-sm mb-3 col-6\">\r\n  <input id=\"depositInput\" width=200 value=\"0.1\" type=\"text\" class=\"form-control\" aria-label=\"Small\" aria-describedby=\"inputGroup-sizing-sm\">\r\n<\/div>";
+        document.getElementById("winnings").innerHTML = "<div style=\"display:table-cell; vertical-align:middle\" class=\"input-group-sm mb-3 col-6\">\r\n  <input id=\"depositInput\" value=\"0.1\" type=\"text\" class=\"form-control\" aria-label=\"Small\" aria-describedby=\"inputGroup-sizing-sm\">\r\n<\/div>";
 
     } else { // if the user has money in the game, show Withdrawl UX
 
