@@ -63,6 +63,7 @@ function populateTable() {
     contract.getBalance().then(function (value) {
         console.log("Pool Balance: " + value);
         document.getElementById("marketSize").innerText = (value / ethers.constants.WeiPerEther).toFixed(4) + " ETH";
+        updateMaxTime(); // set the maximum time for deposits
     })
 
     contract.players(accountAddress).then(function (value) {
@@ -209,6 +210,25 @@ function requireAge()
     });
 
     return true;
+}
+
+function updateMaxTime() {
+    contract.getTableSize().then(function(tableSize){
+        //Maximum deposit time: ??? hours aka ??? days. (click to increase)
+        let days = (tableSize/24).toFixed(1);
+        document.getElementById("maxHours").innerText = "Maximum deposit time: "+tableSize+" hours aka "+days+" days. (click to increase)";
+    });
+}
+
+function bumpCompTable() {
+    
+    contract.bumpComp(24).then(function (value) {
+        if (value) {
+            console.log("Bump Successful");
+        } else {
+            console.log("Bump Failed");
+        }
+    })
 }
 
 function iUnderstand() {

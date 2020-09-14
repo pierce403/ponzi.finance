@@ -41,6 +41,7 @@ body {
 
   .funtable {
     margin: 0 auto;
+    color: grey;
     width: 100%;
     padding: 100px;
     position: absolute;
@@ -50,10 +51,11 @@ body {
 
   .playertable {
     margin: 0 auto;
+    color: grey;
     width: 100%;
     padding: 100px;
     position: absolute;
-    top: 200px;
+    top: 240px;
     z-index: 10;
   }
 
