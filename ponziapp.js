@@ -77,7 +77,7 @@ function populateTable() {
           console.log("lastTime: "+value);
           console.log(parseInt(value)+86400);
           console.log(parseInt(Date.now()/1000));
-          if(parseInt(value)+86400 < parseInt(Date.now()/1000)){
+          if(parseInt(value)==0 || (parseInt(value)+86400 < parseInt(Date.now()/1000))){
               console.log("good to go it seems");
               document.getElementById("yieldButton").disabled=false;
           }
