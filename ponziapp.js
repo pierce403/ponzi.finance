@@ -74,9 +74,7 @@ function populateTable() {
 
     // check to see if we should show the YIELD button
     yieldContract.lastTime(accountAddress).then(function (value){
-        console.log("lastTime: "+value);
-      if(value>0){
-        console.log("okay, this is an actual player");
+          console.log("lastTime: "+value);
           console.log(parseInt(value)+86400);
           console.log(parseInt(Date.now()/1000));
           if(parseInt(value)+86400 < parseInt(Date.now()/1000)){
@@ -86,10 +84,7 @@ function populateTable() {
           else{
               console.log("gotta wait a bit longer for that yeild");
           }
-      }
-      else{
-          console.log("no yield for you");
-      }
+      
     })
 
     contract.getBalance().then(function (value) {
