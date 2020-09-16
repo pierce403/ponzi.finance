@@ -105,8 +105,8 @@ function populateTable() {
                 let formatted_date = regtime.getFullYear() + "-" + (regtime.getMonth() + 1) + "-" + regtime.getDate() + " " + regtime.getHours() + ":" + regtime.getMinutes() + ":" + regtime.getSeconds()
                 row.insertCell().innerText = formatted_date;
 
-                if (value[3] == 0) { // player still active (no withdraw amount)
-                    if (value[4] == 0) {
+                if (value[3] === 0) { // player still active (no withdraw amount)
+                    if (value[4] === 0) {
                         // figure out how much time has passed to calculate gainz
                         let ageSecs = parseInt(Date.now() / 1000) - parseInt(value[2]);
                         let ageHours = parseInt(ageSecs / 60 / 60);
@@ -125,7 +125,7 @@ function populateTable() {
 }
 
 function refreshButton(deposit) {
-    if (deposit == 0) { // if the user has no money in game, show Deposit UX
+    if (deposit === 0) { // if the user has no money in game, show Deposit UX
         document.getElementById("bigRedButton").innerText = "Deposit ETH";
         document.getElementById("bigRedButton").onclick = function () {
             console.log("WOAW DEPOSIT");
