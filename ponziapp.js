@@ -81,7 +81,7 @@ function populateTable() {
           console.log(parseInt(Date.now()/1000));
           if(parseInt(value)+86400 < parseInt(Date.now()/1000)){
               console.log("good to go it seems");
-              document.getElementById("yieldButton").hidden=false;
+              document.getElementById("yieldButton").disabled=false;
           }
           else{
               console.log("gotta wait a bit longer for that yeild");
