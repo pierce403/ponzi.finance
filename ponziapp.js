@@ -11,6 +11,9 @@ let accountAddress = "";
 let signer;
 let myRegTime = 0;
 
+let tableSize = 0;
+let age = 0;
+
 let abi = [
     "function getBalance() public view returns(uint256 value)",
     "function getLogCount() public view returns (uint256)",
@@ -167,6 +170,8 @@ function refreshButton(deposit) {
                 return;
             }
 
+            console.log("WITHDRAWING");
+
             contract.withdraw().then(function (value) {
                 if (value) {
                     console.log("Withdraw Successful");
@@ -190,9 +195,10 @@ function requireAge()
       console.log("age is "+age);
       contract.getTableSize().then(function(tableSize){
         console.log("tableSize is "+tableSize);
-
-        if(tableSize<age){
+        if(parseInt(tableSize)<parseInt(age)){ // god damn, these look like numbers but are 'object'
             console.log("OH NOO");
+
+            console.log("I guess "+tableSize+" is less than "+age+"?")
 
             document.getElementById("msg").textContent = 'WARNING: Table size behind by '+(age-tableSize)+' hours!';
 
@@ -227,7 +233,8 @@ function updateMaxTime() {
 }
 
 function bumpCompTable() {
-    
+    console.log("BUMPING");
+
     contract.bumpComp(24).then(function (value) {
         if (value) {
             console.log("Bump Successful");
@@ -242,6 +249,7 @@ function iUnderstand() {
 }
 
 function yield() {
+    console.log("YIELDING");
 
     yieldContract.yield().then(function (value) {
         if (value) {
