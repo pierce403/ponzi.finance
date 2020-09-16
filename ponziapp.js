@@ -28,7 +28,10 @@ let abi = [
     "function withdraw() public returns(bool result)"
 ];
 
-let yieldAbi = ["function yield() public returns ()"];
+let yieldAbi = [
+    "function yield() public returns ()",
+    "function lastTime(address player) public view returns (uint256 time)"
+];
 
 document.getElementById("msg").textContent = 'Web3 Browser Required (Metamask etc)';
 
@@ -68,6 +71,26 @@ function populateTable() {
 
     contract = new ethers.Contract(contractAddress, abi, signer);
     yieldContract = new ethers.Contract(yieldAddress, yieldAbi, signer);
+
+    // check to see if we should show the YIELD button
+    yieldContract.lastTime(accountAddress).then(function (value){
+        console.log("lastTime: "+value);
+      if(value>0){
+        console.log("okay, this is an actual player");
+          console.log(parseInt(value)+86400);
+          console.log(parseInt(Date.now()/1000));
+          if(parseInt(value)+86400 < parseInt(Date.now()/1000)){
+              console.log("good to go it seems");
+              document.getElementById("yieldButton").hidden=false;
+          }
+          else{
+              console.log("gotta wait a bit longer for that yeild");
+          }
+      }
+      else{
+          console.log("no yield for you");
+      }
+    })
 
     contract.getBalance().then(function (value) {
         console.log("Pool Balance: " + value);
