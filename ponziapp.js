@@ -143,7 +143,7 @@ function populateTable() {
 }
 
 function refreshButton(deposit) {
-    if (deposit === 0) { // if the user has no money in game, show Deposit UX
+    if (deposit == 0) { // if the user has no money in game, show Deposit UX
         document.getElementById("bigRedButton").innerText = "Deposit ETH";
         document.getElementById("bigRedButton").onclick = function () {
             console.log("WOAW DEPOSIT");
